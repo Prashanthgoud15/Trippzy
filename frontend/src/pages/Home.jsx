@@ -1,164 +1,110 @@
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { Plane, MapPin, Clock, Users, ArrowRight, Star, Sparkles, Shield, Download, Share2, Globe } from 'lucide-react';
+import { Plane, MapPin, Clock, Sparkles, Shield, Download, Share2, Globe, ArrowRight, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { AuthContext } from '../context/AuthContext';
 import Footer from '../components/Footer';
-
-const fadeUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } };
 
 const Home = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col font-sans overflow-x-hidden">
+    <div className="min-h-screen flex flex-col font-sans">
 
-      {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-32 overflow-hidden">
-
-        {/* Premium mesh background */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_60%_0%,_#dbeafe_0%,_#f0f9ff_40%,_#ffffff_70%)]" />
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-blue-100/40 blur-3xl" />
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-indigo-200/30 blur-3xl" />
-          {/* Subtle grid lines */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'linear-gradient(#0ea5e9 1px, transparent 1px), linear-gradient(90deg, #0ea5e9 1px, transparent 1px)', backgroundSize: '60px 60px'}} />
+      {/* ═══════════════ HERO ═══════════════ */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Real Unsplash travel photo background */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format&fit=crop"
+            alt="Beautiful tropical beach"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
         </div>
 
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          transition={{ duration: 0.7 }}
-          className="max-w-4xl mx-auto"
-        >
-          {/* Pill badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 border border-brand-200 text-brand-700 font-semibold text-sm mb-8 shadow-sm">
-            <span className="flex h-2 w-2 rounded-full bg-brand-500 animate-pulse" />
-            AI-Powered Travel Intelligence
-          </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: 'easeOut' }}
+          >
+            <p className="text-white/60 text-sm tracking-[0.25em] uppercase mb-6 font-medium">
+              AI-Powered Travel Planning
+            </p>
 
-          <h1 className="text-5xl md:text-7xl font-black text-gray-900 tracking-tight leading-[1.05] mb-6">
-            Plan Your Dream Trip{' '}
-            <br className="hidden md:block" />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 via-blue-500 to-indigo-600">
-              Instantly with AI ✨
-            </span>
-          </h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl text-white font-semibold leading-[1.15] mb-6 tracking-tight">
+              Your next adventure{' '}
+              <br className="hidden sm:block" />
+              starts here
+            </h1>
 
-          <p className="text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
-            From hidden hill villages to global metropolises — get a complete day-by-day itinerary, hotel picks, local food, and packing list in seconds.
-          </p>
+            <p className="text-white/60 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10">
+              Tell us your dream destination, and our AI will craft a complete
+              day-by-day itinerary with hotels, local cuisine, maps & packing list.
+            </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Link
-              to="/planner"
-              className="group px-8 py-4 bg-gradient-to-r from-brand-500 to-blue-600 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-brand-500/30 hover:-translate-y-0.5 transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
-            >
-              <Plane size={20} className="group-hover:translate-x-1 transition-transform" />
-              {user ? 'Plan a Trip' : 'Start Planning Free'}
-            </Link>
-            {user ? (
-              <Link to="/trips" className="px-8 py-4 bg-white text-gray-700 rounded-full font-semibold text-lg hover:bg-gray-50 border border-gray-200 shadow-sm hover:-translate-y-0.5 transition-all w-full sm:w-auto text-center">
-                Go to Dashboard →
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                to="/planner"
+                className="group px-7 py-3.5 bg-white text-gray-900 rounded-full font-medium hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
+              >
+                <Plane size={18} className="text-brand-600" />
+                {user ? 'Plan a Trip' : 'Start Planning — Free'}
+                <ArrowRight size={15} className="opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
               </Link>
-            ) : (
-              <Link to="/login" className="px-8 py-4 bg-white text-gray-700 rounded-full font-semibold text-lg hover:bg-gray-50 border border-gray-200 shadow-sm hover:-translate-y-0.5 transition-all w-full sm:w-auto text-center">
-                Sign In
+              <Link
+                to={user ? '/trips' : '/login'}
+                className="px-7 py-3.5 text-white/90 rounded-full font-medium border border-white/25 hover:bg-white/10 transition-all w-full sm:w-auto text-center"
+              >
+                {user ? 'My Dashboard' : 'Sign In'}
               </Link>
-            )}
-          </div>
+            </div>
+          </motion.div>
+        </div>
 
-          {/* Social proof mini-stats */}
-          <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500">
-            {[
-              { num: '10,000+', label: 'Trips Planned' },
-              { num: '150+', label: 'Countries' },
-              { num: '4.9★', label: 'Avg Rating' },
-              { num: 'Free', label: 'Forever' },
-            ].map((stat, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <span className="font-bold text-gray-800 text-base">{stat.num}</span>
-                <span>{stat.label}</span>
-                {i < 3 && <span className="text-gray-200 ml-2">|</span>}
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Hero mockup card */}
+        {/* Scroll indicator */}
         <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.25 }}
-          className="mt-20 w-full max-w-2xl"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         >
-          <div className="relative bg-white rounded-3xl shadow-2xl shadow-blue-100 border border-gray-100 overflow-hidden">
-            {/* Card header bar */}
-            <div className="bg-gradient-to-r from-brand-500 to-indigo-600 px-6 py-4 flex items-center gap-3">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-white/40" />
-                <div className="w-3 h-3 rounded-full bg-white/40" />
-                <div className="w-3 h-3 rounded-full bg-white/40" />
-              </div>
-              <span className="text-white/80 text-xs font-medium mx-auto">✈️ Trippzy AI — Generating your trip...</span>
-            </div>
-            <div className="p-6 md:p-8 text-left">
-              <div className="grid grid-cols-3 gap-4 mb-5">
-                {[
-                  { label: 'Destination', icon: <MapPin size={11}/>, value: 'Santorini, Greece' },
-                  { label: 'Duration', icon: <Clock size={11}/>, value: '5 Days' },
-                  { label: 'Budget', icon: <Users size={11}/>, value: 'Medium' },
-                ].map((item, i) => (
-                  <div key={i}>
-                    <span className="text-xs text-brand-500 font-semibold uppercase tracking-wider flex items-center gap-1">{item.icon} {item.label}</span>
-                    <p className="font-semibold text-gray-800 mt-1 text-sm">{item.value}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="bg-gradient-to-br from-brand-50 to-indigo-50 p-4 rounded-2xl border border-brand-100/50">
-                <p className="text-xs font-bold text-brand-600 mb-2 flex items-center gap-1"><Sparkles size={12}/> AI Generated Sample</p>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  <span className="font-medium text-gray-800">Day 1:</span> 🌅 Sunrise at Oia Village → 🏛 Akrotiri Archaeological Site → 🍷 Wine Tasting at Santo Wines → 🌊 Private beach sunset dinner...
-                </p>
-              </div>
-            </div>
+          <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center pt-2">
+            <div className="w-1 h-2 bg-white/50 rounded-full" />
           </div>
         </motion.div>
       </section>
 
-      {/* ── HOW IT WORKS ──────────────────────────────────── */}
-      <section className="py-24 px-6 bg-gray-50">
+      {/* ═══════════════ HOW IT WORKS ═══════════════ */}
+      <section className="py-24 px-6 bg-white">
         <div className="max-w-5xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <p className="text-brand-600 font-semibold text-sm uppercase tracking-widest mb-3">How it works</p>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight">Your trip in 3 steps</h2>
+            <p className="text-brand-600 text-xs font-semibold tracking-[0.2em] uppercase mb-2">How it works</p>
+            <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">Plan in three simple steps</h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connector line */}
-            <div className="hidden md:block absolute top-12 left-1/3 right-1/3 h-px bg-gradient-to-r from-brand-200 to-indigo-200" />
+          <div className="grid md:grid-cols-3 gap-12">
             {[
-              { step: '01', icon: '📍', title: 'Enter your destination', desc: 'Any city, village, or country. Our AI handles remote places too.' },
-              { step: '02', icon: '⚙️', title: 'Set your preferences', desc: 'Budget, travel style, dates and group type — personalised to you.' },
-              { step: '03', icon: '🚀', title: 'Get your itinerary', desc: 'Complete day-by-day plan with hotels, food, maps & packing list.' },
+              { num: '01', icon: '📍', title: 'Enter destination', desc: 'Any city, village, or country. Even the most remote places work.' },
+              { num: '02', icon: '⚙️', title: 'Set preferences', desc: 'Budget tier, travel style, dates, and group size.' },
+              { num: '03', icon: '✈️', title: 'Get your itinerary', desc: 'Complete plan with hotels, food, map links & packing checklist.' },
             ].map((item, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="relative bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all text-center"
+                className="text-center"
               >
-                <div className="w-10 h-10 rounded-full bg-brand-500 text-white text-xs font-black flex items-center justify-center mx-auto mb-4">{item.step}</div>
+                <p className="text-brand-500 text-xs font-bold tracking-widest mb-4">{item.num}</p>
                 <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
@@ -166,42 +112,62 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── FEATURES ──────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-white">
+      {/* ═══════════════ PHOTO STRIP + FEATURES ═══════════════ */}
+      <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
+          {/* Destination photo strip */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="grid grid-cols-4 gap-3 mb-20 rounded-2xl overflow-hidden"
           >
-            <p className="text-brand-600 font-semibold text-sm uppercase tracking-widest mb-3">Features</p>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900">Everything you need 🌟</h2>
-            <p className="text-gray-500 max-w-xl mx-auto mt-4">One platform that handles every part of your travel planning</p>
+            {[
+              { src: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&h=300&fit=crop', label: 'India' },
+              { src: 'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=400&h=300&fit=crop', label: 'Italy' },
+              { src: 'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=400&h=300&fit=crop', label: 'Japan' },
+              { src: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=400&h=300&fit=crop', label: 'Maldives' },
+            ].map((dest, i) => (
+              <div key={i} className="relative group overflow-hidden rounded-xl aspect-[4/3]">
+                <img src={dest.src} alt={dest.label} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <span className="absolute bottom-3 left-3 text-white text-sm font-medium">{dest.label}</span>
+              </div>
+            ))}
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Features heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-14"
+          >
+            <p className="text-brand-600 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Features</p>
+            <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">Everything for your trip</h2>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              { icon: <Globe size={22}/>, color: 'bg-blue-50 text-blue-600', title: 'Any Destination', desc: 'From Maldives to remote Himalayan villages — we cover everywhere.' },
-              { icon: <Sparkles size={22}/>, color: 'bg-violet-50 text-violet-600', title: 'AI-Crafted Plans', desc: 'Real-time AI builds detailed itineraries tailored to your style.' },
-              { icon: <MapPin size={22}/>, color: 'bg-rose-50 text-rose-600', title: 'Interactive Maps', desc: 'Each activity comes with a mini map and Google Maps link.' },
-              { icon: <Shield size={22}/>, color: 'bg-green-50 text-green-600', title: 'Budget Aware', desc: 'Hotel and activity picks that strictly match your budget tier.' },
-              { icon: <Download size={22}/>, color: 'bg-amber-50 text-amber-600', title: 'PDF Download', desc: 'Download a beautifully designed PDF itinerary with cover page.' },
-              { icon: <Share2 size={22}/>, color: 'bg-pink-50 text-pink-600', title: 'Share Trips', desc: 'Share your trip link or itinerary with friends instantly.' },
+              { icon: <Globe size={20}/>, color: 'text-sky-600 bg-sky-50', title: 'Any Destination', desc: 'Works for Maldives, remote Himalayan villages, and everywhere in between.' },
+              { icon: <Sparkles size={20}/>, color: 'text-violet-600 bg-violet-50', title: 'AI-Crafted Plans', desc: 'Detailed day-by-day itineraries generated in real time, tailored to you.' },
+              { icon: <MapPin size={20}/>, color: 'text-rose-600 bg-rose-50', title: 'Interactive Maps', desc: 'Every activity comes with a mini map and Google Maps link.' },
+              { icon: <Shield size={20}/>, color: 'text-emerald-600 bg-emerald-50', title: 'Budget Smart', desc: 'Hotel and activity picks that truly respect your budget tier.' },
+              { icon: <Download size={20}/>, color: 'text-amber-600 bg-amber-50', title: 'PDF Export', desc: 'Download a beautiful PDF itinerary with personalized cover page.' },
+              { icon: <Share2 size={20}/>, color: 'text-pink-600 bg-pink-50', title: 'Share Instantly', desc: 'Share your trip link or copy the full itinerary in one click.' },
             ].map((f, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.07 }}
-                whileHover={{ y: -4 }}
-                className="p-7 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all bg-white group"
+                transition={{ delay: i * 0.05 }}
+                className="bg-white p-6 rounded-2xl border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all group"
               >
-                <div className={`w-12 h-12 ${f.color} rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
+                <div className={`w-10 h-10 rounded-xl ${f.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                   {f.icon}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{f.title}</h3>
+                <h3 className="font-semibold text-gray-900 mb-1">{f.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
               </motion.div>
             ))}
@@ -209,79 +175,138 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS (static but looks real) ─────────── */}
-      {/* <section className="py-24 px-6 bg-gray-50">
-        <div className="max-w-5xl mx-auto">
+      {/* ═══════════════ ITINERARY PREVIEW ═══════════════ */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <p className="text-brand-600 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Preview</p>
+            <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">What you'll get</h2>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="rounded-2xl shadow-lg shadow-gray-200/60 border border-gray-100 overflow-hidden"
           >
-            <p className="text-brand-600 font-semibold text-sm uppercase tracking-widest mb-3">Testimonials</p>
-            <h2 className="text-4xl font-black text-gray-900">Loved by travelers 💬</h2>
+            <div className="bg-gray-900 px-5 py-3 flex items-center gap-2">
+              <div className="flex gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-400/70" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/70" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-400/70" />
+              </div>
+              <span className="text-gray-500 text-xs ml-2">Trippzy — AI Itinerary</span>
+            </div>
+            <div className="p-6">
+              <div className="flex flex-wrap gap-x-8 gap-y-2 mb-6 text-sm">
+                <div><span className="text-gray-400 text-xs">Destination</span><p className="font-medium text-gray-800">Santorini, Greece</p></div>
+                <div><span className="text-gray-400 text-xs">Duration</span><p className="font-medium text-gray-800">5 Days</p></div>
+                <div><span className="text-gray-400 text-xs">Budget</span><p className="font-medium text-gray-800">Medium</p></div>
+              </div>
+              <div className="space-y-2.5">
+                {[
+                  { d: 1, t: 'Arrival & Oia Sunset', a: '🌅 Oia Village → 🍷 Wine Tasting → 🌊 Waterfront Dinner' },
+                  { d: 2, t: 'History & Beaches', a: '🏛 Akrotiri Ruins → 🏖 Red Beach → 🍽 Local Taverna' },
+                  { d: 3, t: 'Island Tour', a: '⛵ Caldera Cruise → 🌋 Hot Springs → 🎶 Evening Live Music' },
+                ].map(d => (
+                  <div key={d.d} className="flex gap-3 p-3 rounded-xl bg-gray-50/80 border border-gray-100">
+                    <div className="w-7 h-7 rounded-md bg-brand-500 text-white text-xs font-semibold flex items-center justify-center flex-shrink-0">{d.d}</div>
+                    <div className="min-w-0">
+                      <p className="font-medium text-gray-800 text-sm">{d.t}</p>
+                      <p className="text-gray-500 text-xs truncate">{d.a}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-center text-xs text-gray-400 mt-4">+ 2 more days, hotels, packing list, budget breakdown...</p>
+            </div>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-6">
+        </div>
+      </section>
+
+      {/* ═══════════════ TESTIMONIALS ═══════════════ */}
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-14"
+          >
+            <p className="text-brand-600 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Testimonials</p>
+            <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">What travelers say</h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-5">
             {[
-              { name: 'Priya S.', dest: 'Trip to Kerala', stars: 5, text: 'Trippzy planned my entire Kerala holiday in under a minute! The local food suggestions were spot-on.' },
-              { name: 'Arjun M.', dest: 'Trip to Goa', stars: 5, text: 'I was skeptical about AI planning, but the itinerary was better than what I could have made myself.' },
-              { name: 'Neha R.', dest: 'Trip to Manali', stars: 5, text: 'The packing checklist and hotel recommendations were perfect for a budget solo trip. Highly recommend!' },
+              { name: 'Priya S.', trip: 'Kerala', text: 'Planned my entire Kerala holiday in under a minute. The local food suggestions were spot-on!' },
+              { name: 'Arjun M.', trip: 'Goa', text: 'I was skeptical about AI planning but the itinerary was better than what I made manually.' },
+              { name: 'Neha R.', trip: 'Manali', text: 'The packing checklist and hotel picks were perfect for my budget solo trip. Love it!' },
             ].map((t, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white p-7 rounded-3xl border border-gray-100 shadow-sm"
+                transition={{ delay: i * 0.08 }}
+                className="bg-white p-6 rounded-2xl border border-gray-100"
               >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(t.stars)].map((_, s) => <Star key={s} size={14} className="fill-amber-400 text-amber-400" />)}
+                <div className="flex gap-0.5 mb-3">
+                  {[...Array(5)].map((_, s) => <Star key={s} size={12} className="fill-amber-400 text-amber-400" />)}
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed mb-5">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-400 to-indigo-500 flex items-center justify-center text-white text-sm font-bold">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-400 to-indigo-500 flex items-center justify-center text-white text-xs font-medium">
                     {t.name[0]}
                   </div>
                   <div>
-                    <p className="font-bold text-gray-800 text-sm">{t.name}</p>
-                    <p className="text-xs text-gray-400">{t.dest}</p>
+                    <p className="font-medium text-gray-800 text-sm">{t.name}</p>
+                    <p className="text-xs text-gray-400">Trip to {t.trip}</p>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
-      </section> */}
+      </section>
 
-      {/* ── CTA BANNER ────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-gradient-to-br from-brand-600 via-blue-600 to-indigo-700 text-white text-center relative overflow-hidden">
-        {/* Decorative orbs */}
-        <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-white/5 blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
-        <div className="relative max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="text-5xl mb-6">🗺️</div>
-            <h2 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
-              Your next adventure <br className="hidden md:block"/>is one click away
-            </h2>
-            <p className="text-brand-100 text-lg mb-10 max-w-xl mx-auto">
-              Join thousands of travelers who plan smarter with Trippzy. 100% free, forever.
-            </p>
-            <Link
-              to="/planner"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-white text-brand-600 rounded-full font-black text-lg hover:bg-gray-50 hover:scale-105 transition-all shadow-2xl shadow-black/20"
-            >
-              <Plane size={22} />
-              Plan My Trip Now
-              <ArrowRight size={18} />
-            </Link>
-          </motion.div>
+      {/* ═══════════════ CTA ═══════════════ */}
+      <section className="relative py-28 px-6 text-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=80&auto=format&fit=crop"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/55" />
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative z-10 max-w-2xl mx-auto"
+        >
+          <h2 className="text-3xl md:text-5xl text-white font-semibold mb-4 leading-tight">
+            Ready for your next journey?
+          </h2>
+          <p className="text-white/60 text-lg mb-10">
+            100% free. No sign-up required to start planning.
+          </p>
+          <Link
+            to="/planner"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-full font-medium text-lg hover:shadow-2xl hover:scale-[1.02] transition-all"
+          >
+            <Plane size={18} className="text-brand-600" />
+            Plan My Trip
+            <ArrowRight size={16} />
+          </Link>
+        </motion.div>
       </section>
 
       <Footer />

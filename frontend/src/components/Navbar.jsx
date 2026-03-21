@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="bg-brand-500 p-2 rounded-lg text-white group-hover:bg-brand-600 transition-colors">
           <Map size={24} />
         </div>
-        <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-indigo-600">
+        <span className="text-2xl font-bold text-gray-800">
           Trippzy
         </span>
       </Link>
