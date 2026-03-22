@@ -16,7 +16,8 @@ const Home = () => {
         {/* Real Unsplash travel photo background */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format&fit=crop"
+            /*https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format&fit=crop */
+            src="/ctra.png"
             alt="Beautiful tropical beach"
             className="w-full h-full object-cover"
           />
@@ -149,12 +150,12 @@ const Home = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              { icon: <Globe size={20}/>, color: 'text-sky-600 bg-sky-50', title: 'Any Destination', desc: 'Works for Maldives, remote Himalayan villages, and everywhere in between.' },
-              { icon: <Sparkles size={20}/>, color: 'text-violet-600 bg-violet-50', title: 'AI-Crafted Plans', desc: 'Detailed day-by-day itineraries generated in real time, tailored to you.' },
-              { icon: <MapPin size={20}/>, color: 'text-rose-600 bg-rose-50', title: 'Interactive Maps', desc: 'Every activity comes with a mini map and Google Maps link.' },
-              { icon: <Shield size={20}/>, color: 'text-emerald-600 bg-emerald-50', title: 'Budget Smart', desc: 'Hotel and activity picks that truly respect your budget tier.' },
-              { icon: <Download size={20}/>, color: 'text-amber-600 bg-amber-50', title: 'PDF Export', desc: 'Download a beautiful PDF itinerary with personalized cover page.' },
-              { icon: <Share2 size={20}/>, color: 'text-pink-600 bg-pink-50', title: 'Share Instantly', desc: 'Share your trip link or copy the full itinerary in one click.' },
+              { icon: <Globe size={20} />, color: 'text-sky-600 bg-sky-50', title: 'Any Destination', desc: 'Works for Maldives, remote Himalayan villages, and everywhere in between.' },
+              { icon: <Sparkles size={20} />, color: 'text-violet-600 bg-violet-50', title: 'AI-Crafted Plans', desc: 'Detailed day-by-day itineraries generated in real time, tailored to you.' },
+              { icon: <MapPin size={20} />, color: 'text-rose-600 bg-rose-50', title: 'Interactive Maps', desc: 'Every activity comes with a mini map and Google Maps link.' },
+              { icon: <Shield size={20} />, color: 'text-emerald-600 bg-emerald-50', title: 'Budget Smart', desc: 'Hotel and activity picks that truly respect your budget tier.' },
+              { icon: <Download size={20} />, color: 'text-amber-600 bg-amber-50', title: 'PDF Export', desc: 'Download a beautiful PDF itinerary with personalized cover page.' },
+              { icon: <Share2 size={20} />, color: 'text-pink-600 bg-pink-50', title: 'Share Instantly', desc: 'Share your trip link or copy the full itinerary in one click.' },
             ].map((f, i) => (
               <motion.div
                 key={i}
