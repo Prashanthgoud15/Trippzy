@@ -1,86 +1,80 @@
-# ✈️ Trippzy - AI Travel Planner
+# Trippzy - AI Travel Planner
 
-**AI-powered travel itinerary planner based on a real-world problem.**
+Plan complete trips in minutes, not hours.
 
----
+## Real Problem I Faced
+During a trip to Tamil Nadu, I faced a common traveler problem: planning was scattered across Google searches, blog posts, map reviews, food videos, and budget calculators.
 
-## 🌎 The Problem
+I needed one place that could answer everything at once: where to go, what to eat, what to spend, and how to communicate with locals.
 
-One day, while traveling to Tamil Nadu, I realized how broken travel planning is. I didn't know the best places to visit, the local food to try, the budget required, or even basic local phrases to interact with people. 
+I built Trippzy as that solution.
 
-Every time I needed an answer, I had to search Google, open multiple blogs, check map reviews, and use different tools for hotels and flights. It was frustrating and time-consuming.
+## Product Snapshot
+Trippzy is an AI-powered travel planning platform that turns a few inputs into an execution-ready itinerary.
 
-I wanted a single solution that understood my needs and gave me a complete, personalized plan instantly. When I couldn't find one, **I built Trippzy.**
+Inputs:
+1. Destination
+2. Dates
+3. Budget
+4. Traveler type
+5. Travel interests
 
----
+Output:
+1. Day-by-day itinerary with timing
+2. Budget-aligned hotel recommendations
+3. Local cuisine suggestions
+4. Packing checklist and local phrases
+5. Budget breakdown in INR
+6. Google Maps links for locations
+7. PDF export and trip sharing
 
-## 🎯 The Solution
+## Why Trippzy Stands Out
+1. Real-world context awareness: recommendations adapt to budget and traveler profile
+2. Actionable planning: not just ideas, but a usable plan with time, location, and cost guidance
+3. End-to-end experience: planning, saving, sharing, and revisiting in one product
+4. Personalization at scale: every itinerary is generated for user intent, not copied templates
 
-Trippzy is a complete AI travel companion. You simply enter where you want to go, who you're traveling with, and your budget. 
+## Why Users Choose Trippzy
+1. Faster decision-making before travel
+2. Less planning stress during travel
+3. Better local discovery beyond generic tourist lists
+4. Clear budget visibility before booking
 
-In seconds, the AI generates a highly detailed, personalized itinerary:
-* **Day-by-Day Plan** – Exactly what to do and when to do it.
-* **Smart Budgeting** – Hotel and activity recommendations that actually fit your wallet.
-* **Local Cuisine** – Authentic food suggestions, avoiding tourist traps.
-* **Interactive Maps** – Built-in Google Maps links for every single activity.
-* **Packing Checklist** – Customized based on your specific destination.
-* **PDF Export** – Download your entire trip as a beautifully formatted PDF.
+## Tech Stack
+1. Frontend: React, Vite, Tailwind CSS, Framer Motion
+2. Backend: Node.js, Express, REST APIs
+3. Database: MongoDB with Mongoose
+4. AI: llama LLM API
+5. Security: JWT, bcrypt, Helmet, CORS, rate limiting, request sanitization
+6. Integrations: Nodemailer, html2pdf.js, Unsplash, Google Maps
 
----
+## Run Locally
+1. Clone the repository
 
-## 🔥 Why Trippzy is Unique
+	git clone https://github.com/Prashanthgoud15/Trippzy.git
+	cd Trippzy
 
-Most travel planners just give you generic "Top 10" lists. Trippzy is different:
+2. Install dependencies
 
-1. **Context-Aware:** It considers your budget tier (Low/Medium/Luxury) and travel group (Solo/Couple/Family) before making any recommendation.
-2. **Actionable:** Instead of just naming a place, it provides the timing, a description, and a direct map link.
-3. **All-in-One Dashboard:** Save your trips, track your travel stats, and earn badges based on your exploration history.
-4. **Instant Sharing:** Download a professional PDF of your itinerary to share with your travel group instantly.
+	npm run install-all
 
----
+3. Add environment variables
 
-## 💻 Tech Stack
+	backend/.env
+	JWT_SECRET=your_jwt_secret
+	EMAIL_USER=your_email
+	EMAIL_PASS=your_email_app_password
+	FRONTEND_URL=http://localhost:5173
 
-Trippzy is built as a modern, secure, and fast full-stack application.
+	frontend/.env
+	VITE_API_URL=http://localhost:5000
+	VITE_UNSPLASH_KEY=your_unsplash_key
 
-* **Frontend:** React 18, Vite, Tailwind CSS, Framer Motion
-* **Backend:** Node.js, Express.js, REST APIs
-* **Database:** MongoDB Atlas with Mongoose
-* **AI Engine:** Groq LLM API (for ultra-fast AI inference)
-* **Security:** JWT Authentication, bcrypt, Helmet, Rate Limiting, Input Sanitization
-* **Integrations:** Nodemailer (Email), html2pdf.js (PDF generation), Google Maps
+4. Start development servers
 
----
+	npm run dev
 
-## 🚀 Getting Started
+## Author
+Built independently by Prashanth Goud.
 
-Want to run the project locally?
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Prashanthgoud15/Trippzy.git
-   cd Trippzy
-   ```
-
-2. **Backend Setup:**
-   ```bash
-   cd backend
-   npm install
-   # Create a .env file with your MONGO_URI, JWT_SECRET, GROQ_API_KEY
-   npm start
-   ```
-
-3. **Frontend Setup:**
-   ```bash
-   cd ../frontend
-   npm install
-   # Create a .env file with your backend API URL
-   npm run dev
-   ```
-
----
-
-<p align="center">
-  Built to solve real travel pain points by <strong>Prashanth Goud</strong>.<br>
-  <a href="https://www.linkedin.com/in/prashanthgoud15">LinkedIn</a> • <a href="https://github.com/Prashanthgoud15">GitHub</a>
-</p>
+LinkedIn: https://www.linkedin.com/in/prashanth-goud-372485294/
