@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { Plane, MapPin, Clock, Sparkles, Shield, Download, Share2, Globe, ArrowRight, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/appAuthContext';
 import Footer from '../components/Footer';
 
 const Home = () => {
@@ -17,7 +17,7 @@ const Home = () => {
         <div className="absolute inset-0">
           <img
             /*https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format&fit=crop */
-            src="/ctra.png"
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format&fit=crop "
             alt="Beautiful tropical beach"
             className="w-full h-full object-cover"
           />

@@ -2,9 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Plane, Calendar, MapPin, Trash2, ArrowRight, Plus, TrendingUp, Globe2, Clock } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import API_URL from '../config/api';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/appAuthContext';
 import Footer from '../components/Footer';
 
 // Map destination name to an Unsplash photo (landscape, no CORS issues)
@@ -90,7 +90,7 @@ const Dashboard = () => {
             { icon: <Globe2 size={22}/>, color: 'bg-indigo-50 text-indigo-600', label: 'Destinations', value: [...new Set(trips.map(t => t.destination))].length },
             { icon: <Clock size={22}/>, color: 'bg-green-50 text-green-600', label: 'Total Days', value: totalDays },
           ].map((stat, i) => (
-            <motion.div
+            <Motion.div
               key={i}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -104,7 +104,7 @@ const Dashboard = () => {
                 <p className="text-3xl font-black text-gray-900">{stat.value}</p>
                 <p className="text-sm text-gray-500 font-medium">{stat.label}</p>
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
 
@@ -123,7 +123,7 @@ const Dashboard = () => {
             ))}
           </div>
         ) : trips.length === 0 ? (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             className="bg-white rounded-3xl border-2 border-dashed border-gray-200 p-16 text-center flex flex-col items-center"
@@ -136,11 +136,11 @@ const Dashboard = () => {
             <Link to="/planner" className="bg-gradient-to-r from-brand-500 to-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:-translate-y-0.5 hover:shadow-lg transition-all shadow-sm flex items-center gap-2">
               <Plus size={18} /> Plan Your First Trip
             </Link>
-          </motion.div>
+          </Motion.div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {trips.map((trip, idx) => (
-              <motion.div
+              <Motion.div
                 key={trip._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -205,7 +205,7 @@ const Dashboard = () => {
                     </Link>
                   </div>
                 </div>
-              </motion.div>
+              </Motion.div>
             ))}
           </div>
         )}

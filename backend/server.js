@@ -10,7 +10,21 @@ dotenv.config();
 const authRoutes = require('./routes/authRoutes');
 const tripRoutes = require('./routes/tripRoutes');
 
+const requiredEnvVars = ['MONGO_URI', 'JWT_SECRET', 'GROQ_API_KEY'];
+if (process.env.NODE_ENV === 'production') {
+  requiredEnvVars.push('FRONTEND_URL');
+}
+
+const missingEnvVars = requiredEnvVars.filter((name) => !process.env[name]);
+if (missingEnvVars.length > 0) {
+  console.error(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
+  process.exit(1);
+}
+
 const app = express();
+
+// Required when behind a reverse proxy so rate limiting uses real client IPs.
+app.set('trust proxy', 1);
 
 // ─── Security Middleware ─────────────────────────────
 

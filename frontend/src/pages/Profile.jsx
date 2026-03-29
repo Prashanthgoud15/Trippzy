@@ -1,13 +1,11 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import API_URL from '../config/api';
-import { User, MapPin, Calendar, Award, TrendingUp, Plane, Clock, Globe2, Heart } from 'lucide-react';
-import { AuthContext } from '../context/AuthContext';
+import { MapPin, Calendar, Award, TrendingUp, Plane, Clock, Globe2, Heart } from 'lucide-react';
 import Footer from '../components/Footer';
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -19,7 +17,7 @@ const Profile = () => {
           headers: { Authorization: `Bearer ${token}` }
         });
         setData(res.data);
-      } catch (err) {
+      } catch {
         console.error('Failed to load profile stats');
       } finally {
         setLoading(false);

@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/appAuthContext';
 import { Mail, Lock, User as UserIcon } from 'lucide-react';
 import Footer from '../components/Footer';
 import API_URL from '../config/api';

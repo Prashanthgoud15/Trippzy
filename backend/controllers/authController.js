@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const { sendWelcomeEmail } = require('../services/emailService');
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'secret', {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
 };

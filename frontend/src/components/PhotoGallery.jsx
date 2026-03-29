@@ -1,22 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const UNSPLASH_KEY = import.meta.env.VITE_UNSPLASH_KEY;
 
 const PhotoGallery = ({ destination, itinerary }) => {
   const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => Boolean(destination && UNSPLASH_KEY));
   const [scrollPos, setScrollPos] = useState(0);
 
-  useEffect(() => {
-    if (!destination || !UNSPLASH_KEY) {
-      setLoading(false);
-      return;
-    }
-    fetchLocationPhotos();
-  }, [destination, itinerary]);
-
-  const fetchPhotos = async (query) => {
+  const fetchPhotos = useCallback(async (query) => {
     try {
       const res = await fetch(
         `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=3&orientation=landscape&client_id=${UNSPLASH_KEY}`
@@ -29,9 +21,9 @@ const PhotoGallery = ({ destination, itinerary }) => {
     } catch {
       return [];
     }
-  };
+  }, []);
 
-  const fetchLocationPhotos = async () => {
+  const fetchLocationPhotos = useCallback(async () => {
     setLoading(true);
 
     // Extract unique location names from itinerary activities
@@ -94,7 +86,13 @@ const PhotoGallery = ({ destination, itinerary }) => {
 
     setPhotos(allPhotos.slice(0, 12));
     setLoading(false);
-  };
+  }, [destination, itinerary, fetchPhotos]);
+
+  useEffect(() => {
+    if (!destination || !UNSPLASH_KEY) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchLocationPhotos();
+  }, [destination, fetchLocationPhotos]);
 
   const scroll = (direction) => {
     const container = document.getElementById('photo-gallery-scroll');

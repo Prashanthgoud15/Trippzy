@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import html2pdf from 'html2pdf.js';
 import API_URL from '../config/api';
 import { MapPin, Calendar, Wallet, Download, Copy, ArrowLeft, Sun, Coffee, Moon, ExternalLink, Star, Hotel, UtensilsCrossed, Backpack, Languages, CloudSun, IndianRupee, CheckCircle2, Share2 } from 'lucide-react';
 import Footer from '../components/Footer';
 import PhotoGallery from '../components/PhotoGallery';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/appAuthContext';
 
 const TripDetails = () => {
   const { id } = useParams();
@@ -26,7 +27,7 @@ const TripDetails = () => {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTrip(res.data);
-      } catch (err) {
+      } catch {
         setError('Failed to fetch trip details. It might have been deleted.');
       } finally {
         setLoading(false);
@@ -69,96 +70,100 @@ const TripDetails = () => {
   };
 
   const handleDownloadPDF = async () => {
-    const html2pdf = (await import('html2pdf.js')).default;
+    if (!trip) return;
 
-    const userName = user?.name || 'Traveller';
-    const startDateStr = new Date(trip.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-    const endDateStr = new Date(trip.endDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-    const days = Math.ceil((new Date(trip.endDate) - new Date(trip.startDate)) / (1000 * 60 * 60 * 24)) + 1;
+    try {
+      const userName = user?.name || 'Traveller';
+      const startDateStr = new Date(trip.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+      const endDateStr = new Date(trip.endDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+      const days = Math.ceil((new Date(trip.endDate) - new Date(trip.startDate)) / (1000 * 60 * 60 * 24)) + 1;
 
-    const element = contentRef.current;
+      const element = contentRef.current;
+      if (!element) return;
 
-    // 1. Hide all iframes (they render as blank boxes in pdf)
-    const iframes = element.querySelectorAll('iframe');
-    iframes.forEach(f => { f.dataset.display = f.style.display; f.style.display = 'none'; });
+      // Hide map iframes in PDF to avoid blank map boxes.
+      const iframes = element.querySelectorAll('iframe');
+      iframes.forEach(f => {
+        f.dataset.display = f.style.display;
+        f.style.display = 'none';
+      });
 
-    // 2. Build & inject COVER page at the top of contentRef
-    const coverEl = document.createElement('div');
-    coverEl.innerHTML = `
-      <div style="min-height:270mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#1e3a8a;color:white;padding:60px 40px;page-break-after:always;margin-bottom:0;">
-        <div style="font-size:52px;margin-bottom:12px;">✈️</div>
-        <div style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#93c5fd;margin-bottom:16px;font-weight:600;">TRIPPZY PRESENTS</div>
-        <h1 style="font-size:40px;font-weight:900;margin:0 0 8px;line-height:1.2;color:white;">Welcome, ${userName}!</h1>
-        <div style="width:60px;height:4px;background:#60a5fa;border-radius:2px;margin:16px auto;"></div>
-        <div style="font-size:20px;color:#bfdbfe;margin-bottom:6px;">Your Trip to</div>
-        <div style="font-size:34px;font-weight:900;color:white;margin-bottom:32px;">📍 ${trip.destination}</div>
-        <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;">
-          <div style="background:rgba(255,255,255,0.15);padding:14px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
-            <div style="font-size:9px;color:#93c5fd;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">From</div>
-            <div style="font-size:13px;font-weight:700;">${startDateStr}</div>
+      const coverEl = document.createElement('div');
+      coverEl.innerHTML = `
+        <div style="min-height:270mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#1e3a8a;color:white;padding:60px 40px;page-break-after:always;margin-bottom:0;">
+          <div style="font-size:52px;margin-bottom:12px;">✈️</div>
+          <div style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#93c5fd;margin-bottom:16px;font-weight:600;">TRIPPZY PRESENTS</div>
+          <h1 style="font-size:40px;font-weight:900;margin:0 0 8px;line-height:1.2;color:white;">Welcome, ${userName}!</h1>
+          <div style="width:60px;height:4px;background:#60a5fa;border-radius:2px;margin:16px auto;"></div>
+          <div style="font-size:20px;color:#bfdbfe;margin-bottom:6px;">Your Trip to</div>
+          <div style="font-size:34px;font-weight:900;color:white;margin-bottom:32px;">📍 ${trip.destination}</div>
+          <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;">
+            <div style="background:rgba(255,255,255,0.15);padding:14px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
+              <div style="font-size:9px;color:#93c5fd;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">From</div>
+              <div style="font-size:13px;font-weight:700;">${startDateStr}</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);padding:14px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
+              <div style="font-size:9px;color:#93c5fd;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">To</div>
+              <div style="font-size:13px;font-weight:700;">${endDateStr}</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);padding:14px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
+              <div style="font-size:9px;color:#93c5fd;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">Duration</div>
+              <div style="font-size:13px;font-weight:700;">${days} Days</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);padding:14px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
+              <div style="font-size:9px;color:#93c5fd;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">Budget</div>
+              <div style="font-size:13px;font-weight:700;">${trip.budget}</div>
+            </div>
           </div>
-          <div style="background:rgba(255,255,255,0.15);padding:14px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
-            <div style="font-size:9px;color:#93c5fd;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">To</div>
-            <div style="font-size:13px;font-weight:700;">${endDateStr}</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.15);padding:14px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
-            <div style="font-size:9px;color:#93c5fd;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">Duration</div>
-            <div style="font-size:13px;font-weight:700;">${days} Days</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.15);padding:14px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);">
-            <div style="font-size:9px;color:#93c5fd;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">Budget</div>
-            <div style="font-size:13px;font-weight:700;">${trip.budget}</div>
-          </div>
+          <p style="font-size:13px;color:#93c5fd;max-width:380px;line-height:1.7;">Your AI-crafted itinerary is ready. Every detail curated just for you. Have an amazing journey! 🌟</p>
+          <div style="margin-top:40px;font-size:11px;color:#4b6a9b;">Generated by Trippzy AI • ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
         </div>
-        <p style="font-size:13px;color:#93c5fd;max-width:380px;line-height:1.7;">Your AI-crafted itinerary is ready. Every detail curated just for you. Have an amazing journey! 🌟</p>
-        <div style="margin-top:40px;font-size:11px;color:#4b6a9b;">Generated by Trippzy AI • ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-      </div>
-    `;
-    element.insertBefore(coverEl, element.firstChild);
+      `;
+      element.insertBefore(coverEl, element.firstChild);
 
-    // 3. Build & inject CLOSING page at the bottom of contentRef
-    const closingEl = document.createElement('div');
-    closingEl.innerHTML = `
-      <div style="min-height:200mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#064e3b;color:white;padding:60px 40px;page-break-before:always;margin-top:0;">
-        <div style="font-size:56px;margin-bottom:18px;">🌴</div>
-        <h1 style="font-size:34px;font-weight:900;margin:0 0 10px;color:white;">Bon Voyage, ${userName}!</h1>
-        <div style="width:60px;height:4px;background:#34d399;border-radius:2px;margin:16px auto;"></div>
-        <p style="font-size:15px;color:#a7f3d0;max-width:480px;line-height:1.8;margin-bottom:20px;">
-          Thank you for choosing Trippzy to plan your adventure to <strong style="color:white;">${trip.destination}</strong>. 
-          We hope every moment of your ${days}-day journey is filled with joy and unforgettable memories. ✨
-        </p>
-        <p style="font-size:12px;color:#6ee7b7;max-width:400px;line-height:1.7;margin-bottom:36px;">
-          Safe travels! Come back whenever you're ready to plan your next adventure. The world is waiting! 🌍
-        </p>
-        <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:16px 32px;font-size:13px;font-weight:700;letter-spacing:2px;color:#a7f3d0;">
-          TRIPPZY — AI-POWERED TRAVEL PLANNING
+      const closingEl = document.createElement('div');
+      closingEl.innerHTML = `
+        <div style="min-height:200mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#064e3b;color:white;padding:60px 40px;page-break-before:always;margin-top:0;">
+          <div style="font-size:56px;margin-bottom:18px;">🌴</div>
+          <h1 style="font-size:34px;font-weight:900;margin:0 0 10px;color:white;">Bon Voyage, ${userName}!</h1>
+          <div style="width:60px;height:4px;background:#34d399;border-radius:2px;margin:16px auto;"></div>
+          <p style="font-size:15px;color:#a7f3d0;max-width:480px;line-height:1.8;margin-bottom:20px;">
+            Thank you for choosing Trippzy to plan your adventure to <strong style="color:white;">${trip.destination}</strong>. 
+            We hope every moment of your ${days}-day journey is filled with joy and unforgettable memories. ✨
+          </p>
+          <p style="font-size:12px;color:#6ee7b7;max-width:400px;line-height:1.7;margin-bottom:36px;">
+            Safe travels! Come back whenever you're ready to plan your next adventure. The world is waiting! 🌍
+          </p>
+          <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:16px 32px;font-size:13px;font-weight:700;letter-spacing:2px;color:#a7f3d0;">
+            TRIPPZY — AI-POWERED TRAVEL PLANNING
+          </div>
+          <div style="margin-top:28px;font-size:11px;color:#4b9a80;">support.trippzy@gmail.com</div>
         </div>
-        <div style="margin-top:28px;font-size:11px;color:#4b9a80;">support.trippzy@gmail.com</div>
-      </div>
-    `;
-    element.appendChild(closingEl);
+      `;
+      element.appendChild(closingEl);
 
-    // 4. Generate PDF from the now-modified visible element
-    await new Promise(r => setTimeout(r, 200));
+      await new Promise((r) => setTimeout(r, 200));
 
-    const opt = {
-      margin: 0,
-      filename: `Trippzy_${trip.destination.replace(/[^a-zA-Z0-9]/g, '_')}_Itinerary.pdf`,
-      image: { type: 'jpeg', quality: 0.95 },
-      html2canvas: { scale: 2, useCORS: true, logging: false },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['css', 'legacy'] },
-    };
+      const opt = {
+        margin: 0,
+        filename: `Trippzy_${trip.destination.replace(/[^a-zA-Z0-9]/g, '_')}_Itinerary.pdf`,
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] },
+      };
 
-    await html2pdf().set(opt).from(element).save();
+      await html2pdf().set(opt).from(element).save();
 
-    // 5. Restore everything
-    element.removeChild(coverEl);
-    element.removeChild(closingEl);
-    iframes.forEach(f => { f.style.display = f.dataset.display || ''; });
-
-
-
+      element.removeChild(coverEl);
+      element.removeChild(closingEl);
+      iframes.forEach((f) => {
+        f.style.display = f.dataset.display || '';
+      });
+    } catch (error) {
+      console.error('PDF download failed:', error);
+      setError('Failed to generate premium PDF. Please try again.');
+    }
   };
 
   const toggleChecklist = (idx) => {
@@ -180,7 +185,7 @@ const TripDetails = () => {
         setShared(true);
         setTimeout(() => setShared(false), 2000);
       }
-    } catch (err) {
+    } catch {
       // User cancelled share dialog
     }
   };
