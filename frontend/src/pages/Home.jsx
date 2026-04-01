@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { Plane, MapPin, Clock, Sparkles, Shield, Download, Share2, Globe, ArrowRight, Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { AuthContext } from '../context/appAuthContext';
 import Footer from '../components/Footer';
 
@@ -25,7 +25,7 @@ const Home = () => {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: 'easeOut' }}
@@ -61,11 +61,11 @@ const Home = () => {
                 {user ? 'My Dashboard' : 'Sign In'}
               </Link>
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
 
         {/* Scroll indicator */}
-        <motion.div
+        <Motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
@@ -73,13 +73,13 @@ const Home = () => {
           <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center pt-2">
             <div className="w-1 h-2 bg-white/50 rounded-full" />
           </div>
-        </motion.div>
+        </Motion.div>
       </section>
 
       {/* ═══════════════ HOW IT WORKS ═══════════════ */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-5xl mx-auto">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -87,7 +87,7 @@ const Home = () => {
           >
             <p className="text-brand-600 text-xs font-semibold tracking-[0.2em] uppercase mb-2">How it works</p>
             <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">Plan in three simple steps</h2>
-          </motion.div>
+          </Motion.div>
 
           <div className="grid md:grid-cols-3 gap-12">
             {[
@@ -95,7 +95,7 @@ const Home = () => {
               { num: '02', icon: '⚙️', title: 'Set preferences', desc: 'Budget tier, travel style, dates, and group size.' },
               { num: '03', icon: '✈️', title: 'Get your itinerary', desc: 'Complete plan with hotels, food, map links & packing checklist.' },
             ].map((item, i) => (
-              <motion.div
+              <Motion.div
                 key={i}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -107,7 +107,7 @@ const Home = () => {
                 <div className="text-4xl mb-4">{item.icon}</div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-              </motion.div>
+              </Motion.div>
             ))}
           </div>
         </div>
@@ -117,7 +117,7 @@ const Home = () => {
       <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           {/* Destination photo strip */}
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -135,10 +135,10 @@ const Home = () => {
                 <span className="absolute bottom-3 left-3 text-white text-sm font-medium">{dest.label}</span>
               </div>
             ))}
-          </motion.div>
+          </Motion.div>
 
           {/* Features heading */}
-          <motion.div
+                <Motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -146,7 +146,7 @@ const Home = () => {
           >
             <p className="text-brand-600 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Features</p>
             <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">Everything for your trip</h2>
-          </motion.div>
+                </Motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
@@ -157,7 +157,7 @@ const Home = () => {
               { icon: <Download size={20} />, color: 'text-amber-600 bg-amber-50', title: 'PDF Export', desc: 'Download a beautiful PDF itinerary with personalized cover page.' },
               { icon: <Share2 size={20} />, color: 'text-pink-600 bg-pink-50', title: 'Share Instantly', desc: 'Share your trip link or copy the full itinerary in one click.' },
             ].map((f, i) => (
-              <motion.div
+              <Motion.div
                 key={i}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -170,7 +170,7 @@ const Home = () => {
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-1">{f.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
-              </motion.div>
+              </Motion.div>
             ))}
           </div>
         </div>
@@ -179,7 +179,7 @@ const Home = () => {
       {/* ═══════════════ ITINERARY PREVIEW ═══════════════ */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -187,9 +187,9 @@ const Home = () => {
           >
             <p className="text-brand-600 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Preview</p>
             <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">What you'll get</h2>
-          </motion.div>
+          </Motion.div>
 
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -226,14 +226,14 @@ const Home = () => {
               </div>
               <p className="text-center text-xs text-gray-400 mt-4">+ 2 more days, hotels, packing list, budget breakdown...</p>
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
 
       {/* ═══════════════ TESTIMONIALS ═══════════════ */}
       <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-5xl mx-auto">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -241,7 +241,7 @@ const Home = () => {
           >
             <p className="text-brand-600 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Testimonials</p>
             <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">What travelers say</h2>
-          </motion.div>
+          </Motion.div>
 
           <div className="grid md:grid-cols-3 gap-5">
             {[
@@ -249,7 +249,7 @@ const Home = () => {
               { name: 'Arjun M.', trip: 'Goa', text: 'I was skeptical about AI planning but the itinerary was better than what I made manually.' },
               { name: 'Neha R.', trip: 'Manali', text: 'The packing checklist and hotel picks were perfect for my budget solo trip. Love it!' },
             ].map((t, i) => (
-              <motion.div
+              <Motion.div
                 key={i}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -270,7 +270,7 @@ const Home = () => {
                     <p className="text-xs text-gray-400">Trip to {t.trip}</p>
                   </div>
                 </div>
-              </motion.div>
+              </Motion.div>
             ))}
           </div>
         </div>
@@ -287,7 +287,7 @@ const Home = () => {
           <div className="absolute inset-0 bg-black/55" />
         </div>
 
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -307,7 +307,7 @@ const Home = () => {
             Plan My Trip
             <ArrowRight size={16} />
           </Link>
-        </motion.div>
+        </Motion.div>
       </section>
 
       <Footer />
