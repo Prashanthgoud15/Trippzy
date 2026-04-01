@@ -35,16 +35,39 @@ app.use(helmet({
 }));
 
 // CORS — only allow frontend origin
+const normalizeOrigin = (origin) => (typeof origin === 'string' ? origin.replace(/\/$/, '') : origin);
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   process.env.FRONTEND_URL,
-].filter(Boolean);
+  ...(process.env.FRONTEND_URLS || '').split(',').map((o) => o.trim()),
+].map(normalizeOrigin).filter(Boolean);
 
-app.use(cors({
-  origin: allowedOrigins,
+const vercelProjectPrefix = process.env.VERCEL_PROJECT_PREFIX?.trim();
+const vercelPreviewRegex = vercelProjectPrefix
+  ? new RegExp(`^https://${escapeRegex(vercelProjectPrefix)}(?:-[a-z0-9-]+)?\\.vercel\\.app$`, 'i')
+  : null;
+
+const corsOptions = {
+  origin(origin, callback) {
+    // Allow non-browser clients (server-to-server, curl, etc.)
+    if (!origin) return callback(null, true);
+
+    const normalized = normalizeOrigin(origin);
+    const isExplicitlyAllowed = allowedOrigins.includes(normalized);
+    const isVercelPreview = vercelPreviewRegex ? vercelPreviewRegex.test(normalized) : false;
+
+    if (isExplicitlyAllowed || isVercelPreview) return callback(null, true);
+
+    console.warn(`Blocked CORS origin: ${origin}`);
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
-}));
+};
+
+app.use(cors(corsOptions));
 
 // Rate limiting — general API
 const generalLimiter = rateLimit({
